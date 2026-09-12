@@ -126,7 +126,7 @@ Base path: `/api/v1`
   "portfolioId": "3f2a1c4e-...-...",
   "name": "Balanced Growth",
   "positions": [ { "symbol": "AAPL", "weight": 0.6 }, { "symbol": "TSLA", "weight": 0.4, "price": 245.32 } ],
-  "createdAt": "2026-09-11T10:00:00.000Z"
+  "createdAt": 1789120800000
 }
 ```
 
@@ -167,8 +167,8 @@ List (paginated) or fetch one registered portfolio. `404` if not found.
   "orderType": "BUY",
   "status": "PENDING_EXECUTION",
   "totalAmount": 100,
-  "createdAt": "2026-09-11T10:15:00.000Z",
-  "executionAt": "2026-09-11T13:30:00.000Z",
+  "createdAt": 1789121700000,
+  "executionAt": 1789133400000,
   "quantityDecimalPlaces": 3,
   "allocations": [
     { "symbol": "AAPL", "weight": 0.6, "amount": 60, "price": 100, "quantity": 0.6 },
@@ -176,13 +176,13 @@ List (paginated) or fetch one registered portfolio. `404` if not found.
   ]
 }
 ```
-`status` and `executionAt` are illustrative — `status` is derived at read time (see §2.4); `executionAt` is always a UTC ISO timestamp (see §2.2).
+`status` and `executionAt` are illustrative — `status` is derived at read time (see §2.4); `executionAt` (like `createdAt`) is always a UTC epoch-millis timestamp, not an ISO string (see §2.2).
 
 **Errors:** `400` for invalid payload (bad enum, non-positive amount, weights not summing to 1.0, empty positions, duplicate symbols, both/neither of `portfolio`/`portfolioId` supplied), `404` if `portfolioId` doesn't exist — all with a Zod-derived, field-level error body.
 
 ### 5.4 `GET /api/v1/orders` — historic orders
 
-Query params (all optional): `symbol`, `orderType`, `status`, `from`, `to` (ISO dates), `page` (default 1), `limit` (default 20, max 100).
+Query params (all optional): `symbol`, `orderType`, `status`, `from`, `to` (epoch millis), `page` (default 1), `limit` (default 20, max 100).
 
 **Response `200 OK`:**
 ```json
@@ -242,8 +242,8 @@ interface Order {
   portfolioId?: string;      // set if a registered portfolio was referenced
   allocations: Allocation[];
   quantityDecimalPlaces: number;
-  createdAt: string;   // ISO, UTC
-  executionAt: string; // ISO, UTC — market-hours-aware timestamp (see §2.2)
+  createdAt: number;   // epoch millis, UTC
+  executionAt: number; // epoch millis, UTC — market-hours-aware timestamp (see §2.2)
   // status is NOT stored; computed as EXECUTED once now >= executionAt, else PENDING_EXECUTION
 }
 
@@ -257,7 +257,7 @@ interface Portfolio {
   portfolioId: string;
   name?: string;
   positions: PortfolioPosition[];
-  createdAt: string; // ISO, UTC
+  createdAt: number; // epoch millis, UTC
 }
 ```
 Both stored in `Map<string, T>` inside their respective repositories, insertion-ordered, filtered/paginated in memory. `orderRepository`'s get/list methods derive `status` from `executionAt` vs the injected clock's `now()` before returning.

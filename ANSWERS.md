@@ -25,6 +25,7 @@ wouldn't be testable.
 - Portfolios can be sent inline or registered once and referenced by id.
 - `QUANTITY_DECIMAL_PLACES` is an env var, changed by restarting.
 - Storage is a plain in-memory `Map`, wiped on restart, per the brief.
+- Orders are executed immediately if the market is open
 
 ## What challenges did you face when creating your solution?
 

@@ -8,6 +8,15 @@ See `docs/PROJECT_PLAN.md` for the full design and `docs/Assignment-brief.pdf`
 for the original brief. `ANSWERS.md` covers approach, assumptions, and a
 path-to-production discussion.
 
+## Live
+
+- Website: **https://ionixx-order-splitter-frontend.vercel.app** (With a console to call all the endpoints and have a 
+visual medium to test apis)
+- API base URL: `https://ionixx-order-splitter.onrender.com/api/v1` (this is what the website above talks to)
+
+Note: the API runs on Render's free tier, so it spins down after inactivity,
+the first request after a while may take ~30-50s to wake it back up.
+
 ## Setup
 
 ```bash

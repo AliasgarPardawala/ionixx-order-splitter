@@ -43,6 +43,7 @@ Read once at boot from environment variables (`src/config/index.ts`):
 | `DEFAULT_STOCK_PRICE` | `100` | Fixed price used when a position has no override |
 | `MARKET_OPEN_UTC` | `13:30` | Market open, UTC 24h clock |
 | `MARKET_CLOSE_UTC` | `20:00` | Market close, UTC 24h clock |
+| `CORS_ORIGIN` | `*` | Allowed CORS origin (`*` or a single origin, e.g. `https://your-frontend.vercel.app`) |
 
 ## API
 

@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from 'express';
+import cors from 'cors';
 import { orderRoutes } from './routes/orderRoutes';
 import { portfolioRoutes } from './routes/portfolioRoutes';
 import { requestTimer } from './middleware/requestTimer';
@@ -8,6 +9,7 @@ import { config } from './config';
 export function createApp(): Express {
   const app = express();
 
+  app.use(cors({ origin: config.corsOrigin }));
   app.use(express.json());
   app.use(requestTimer);
 

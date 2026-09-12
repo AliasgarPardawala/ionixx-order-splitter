@@ -20,6 +20,7 @@ export interface AppConfig {
   marketOpenUtc: string; // "HH:MM" 24h UTC
   marketCloseUtc: string; // "HH:MM" 24h UTC
   weightSumEpsilon: number;
+  corsOrigin: string; // '*' or a single allowed origin, e.g. https://ionixx-order-splitter.vercel.app
 }
 
 export const config: AppConfig = {
@@ -29,4 +30,5 @@ export const config: AppConfig = {
   marketOpenUtc: envString('MARKET_OPEN_UTC', '13:30'),
   marketCloseUtc: envString('MARKET_CLOSE_UTC', '20:00'),
   weightSumEpsilon: 0.005,
+  corsOrigin: envString('CORS_ORIGIN', '*'),
 };
